@@ -1,0 +1,25 @@
+body, html{
+    padding: 0px;
+    margin: 0px;
+}
+.game-container{
+    height: 100vh;
+    z-index: 500;
+}
+.cell{
+    height: 100px;
+    width: 100px;
+    z-index: 1000;
+}
+
+.green{
+    background-clip: 'green';
+}
+
+.red{
+    background-clip: 'green';
+}
+
+.border{
+    border: solid black 0.3px;
+}

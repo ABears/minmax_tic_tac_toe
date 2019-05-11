@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Morpion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="./bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./style.css" />
+    <script src="./jquery.min.js" ></script>    
+</head>
+<body>
+    <div class="container bg-danger">
+        <button class="btn btn-primary float-right mt-5 rounded-circle">
+            <i class="fa fa-undo"></i>
+        </button>
+    </div>
+    <div class="container d-flex justify-content-center align-items-center game-container">
+        <table>
+            <tr class="border border-dark">
+                <td class="cell border border-dark" id="0"></td>
+                <td class="cell border border-dark" id="1"></td>
+                <td class="cell border border-dark" id="2"></td>
+            </tr>
+            <tr>
+                <td class="cell border border-dark" id="3"></td>
+                <td class="cell border border-dark" id="4"></td>
+                <td class="cell border border-dark" id="5"></td>
+            </tr>
+            <tr>
+                <td class="cell border border-dark" id="6"></td>
+                <td class="cell border border-dark" id="7"></td>
+                <td class="cell border border-dark" id="8"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="./script.js"></script>
+</html>
