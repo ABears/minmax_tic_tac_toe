@@ -1,17 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Didact+Gothic|Bungee+Inline');
+
+
 body, html{
+    font-family: "Bungee Inline", sans-serif;
+    color: white;
     padding: 0px;
     margin: 0px;
+    overflow: hidden;
 }
 .game-container{
     height: 100vh;
     z-index: 500;
 }
 .cell{
-    height: 100px;
-    width: 100px;
+    max-height: 150px;
+    max-width: 150px;
+    height: 150px;
+    width: 150px;
     z-index: 1000;
 }
-
+.logo-gh-container{
+    position:absolute; 
+    right: 0px;
+    z-index: 1000;
+    font-size: 90px;
+}
+.logo-gh{
+    width: 15%;
+    float: right;
+    right: 5%;
+}
+.winner-blocker{
+    height:100vh;
+    width:100vw; 
+    position:absolute; 
+    z-index:-100000; 
+    background-color:rgba(0,0,0,0.4);
+}
+.winning-statement{
+    bottom: 5%;
+    position: absolute;
+    font-size:70px;
+}
 .green{
     background-clip: 'green';
 }
@@ -20,6 +50,60 @@ body, html{
     background-clip: 'green';
 }
 
-.border{
-    border: solid black 0.3px;
+.border-white{
+    cursor: pointer;
+    border: solid white 5px;
 }
+
+.border-white:active{
+    margin-top: 10px;
+}
+
+.border{
+    border: solid black 10px;
+}
+
+
+.menu-container {
+  height: 100vh;
+  width: 100%;
+  background: -moz-linear-gradient(top, #febbbb 0%, #fe9090 45%, #ff5c5c 100%);
+  background: -webkit-linear-gradient(top, #febbbb 0%, #fe9090 45%, #ff5c5c 100%);
+  background: linear-gradient(to bottom, #febbbb 0%, #fe9090 45%, #ff5c5c 100%);
+}
+
+.title-game{
+    position:absolute; 
+    z-index: 1000;
+    font-size: 90px;
+}
+
+@media screen and (max-width: 640px) {
+    .cell{
+        max-height: 100px;
+        max-width: 100px;
+        height: 100px;
+        width: 100px;
+        z-index: 1000;
+    }
+    .title-game{
+        font-size:30px;
+        margin-top: 20px;
+    }
+    .play-button{
+        font-size: 30px;
+    }
+    .logo-gh{
+        top: -10px;
+        width: 10%;
+        float: right;
+    }
+    .logo-gh-container{
+        margin-top: 10px!important;
+        margin-left: 5px!important;
+        padding-right: 5px!important;
+    }
+    .winning-statement{
+        font-size:50px;
+    }
+  }

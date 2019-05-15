@@ -5,32 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Morpion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="./bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="./style.css" />
     <script src="./jquery.min.js" ></script>    
 </head>
 <body>
-    <div class="container bg-danger">
-        <button class="btn btn-primary float-right mt-5 rounded-circle">
-            <i class="fa fa-undo"></i>
-        </button>
+    <div  class="d-flex align-items-center justify-content-center winner-blocker">
+        <h1 class="winning-statement">YOU LOOSE</h1>
     </div>
-    <div class="container d-flex justify-content-center align-items-center game-container">
+     <h1 class="text-center w-100 mt-5 title-game">Invicible morpion</h1>
+     <div class="logo-gh-container mt-5 pr-5">
+        <img src="./images/logo-gh.svg" class="img-fluid logo-gh"/>
+    </div>
+    <header class="container menu-container d-flex align-items-center justify-content-center">
+
+        <h1 class="border-white p-4 play-button">Try to beat me !</h1>
+    </header>
+    <div class="container-fluid w-100 d-flex justify-content-center align-items-center game-container" style="background-color:white;">
         <table>
-            <tr class="border border-dark">
-                <td class="cell border border-dark" id="0"></td>
-                <td class="cell border border-dark" id="1"></td>
-                <td class="cell border border-dark" id="2"></td>
+            <img src="./images/vectorpaint.png" class="img-fluid winning-bar d-none" style="position:absolute;width: 450px;"/>
+            <tr class="border-none border-dark">
+                <td class="cell border border-top-0 border-left-0 border-dark p-0" id="0"></td>
+                <td class="cell border border-top-0 p-0" id="1"></td>
+                <td class="cell border border-top-0  border-right-0 p-0" id="2"></td>
             </tr>
             <tr>
-                <td class="cell border border-dark" id="3"></td>
-                <td class="cell border border-dark" id="4"></td>
-                <td class="cell border border-dark" id="5"></td>
+                <td class="cell border border-dark border-left-0 p-0" id="3"></td>
+                <td class="cell border border-dark p-0" id="4"></td>
+                <td class="cell border border-dark border-right-0 p-0" id="5"></td>
             </tr>
             <tr>
-                <td class="cell border border-dark" id="6"></td>
-                <td class="cell border border-dark" id="7"></td>
-                <td class="cell border border-dark" id="8"></td>
+                <td class="cell border border-dark  border-left-0 p-0 border-bottom-0" id="6"></td>
+                <td class="cell border border-dark p-0 border-bottom-0" id="7"></td>
+                <td class="cell border border-dark  border-right-0 p-0 border-bottom-0" id="8"></td>
             </tr>
         </table>
     </div>

@@ -11,12 +11,15 @@ const Game = {
     diagonalCounterLeft: 0,
     cellList: [],
     playbleCells: [],
-
+    circleImage: './images/tic_tac_circle.jpg',
+    crossImage: './images/tic_tac_cross.jpg',
+    lostGIF: './images/lost_animation.gif',
     setColor : function(iterator) {
-        switch (iterator) {
-            // case 0:
-            //     this.turnColor =  'red';            
-            //     break;
+        iteratorMod = iterator % 2;
+        switch (iteratorMod) {
+            case 0:
+                this.turnColor =  'red';            
+                break;
         
             default:
                 this.turnColor =  'green';
@@ -39,18 +42,31 @@ const Game = {
 
         return isCell;
     },
+    // Cell clicked function
     onCellClicked: async function(e) {
+
         const target = e.target;
+
+        // Check if cell is free
         const isAllReadyUse = this.isAllReadyUse(target);
+
+        // Check if target is cellule
         const isClickable = this.isClickable(target);
 
         if(isClickable && !isAllReadyUse){
+
             this.turnIterator += 1;
             this.setColor(this.turnIterator);
-    
             const playerColor = this.getColor(); 
-    
+            // Attribute player color
             target.style.backgroundColor = playerColor;
+            target.style.backgroundImage = 'linear-gradient(#fff, #fff)';
+            
+            // Append player image
+            let new_image = document.createElement('img');            
+            target.appendChild(new_image);
+            new_image.setAttribute('src', this.crossImage);
+            new_image.setAttribute('class', 'img-fluid w-100 h-100');
         }
     }, 
     setCellList: function(){
@@ -60,7 +76,8 @@ const Game = {
         this.setCellList();
         return this.cellList;
     },
-    horizontalChecker: async function () {
+    // Horizontal checker
+    horizontalChecker: function () {
 
         let cellList = this.getCellList()
         let cellListCounter = 0;
@@ -79,11 +96,19 @@ const Game = {
                 j == 0  ? this.horizontalCounter = 0 : '';
                 let cellColor = listToArray[i][j].style.backgroundColor;
                 cellColor == this.turnColor ? this.horizontalCounter+=1 : '';
-                this.horizontalCounter == 3 ? alert(String(this.turnColor) + ' win') : '';
+                this.horizontalCounter == 3 ? $('.winning-bar').removeClass('d-none') : '';
+                this.horizontalCounter == 3 ? $('.winner-blocker').css('z-index', '10000') : '';
+                if(this.horizontalCounter == 3 &&  i == 2){
+                    $('.winning-bar').css('margin-top', $(listToArray[i][j]).width()+10)
+                }
+                else if(this.horizontalCounter == 3 &&  i == 0){
+                    $('.winning-bar').css('margin-top', -$(listToArray[i][j]).width()-10)
+                }
             }
         }
     },
-    verticalChecker: async function () {
+    // Vertical checker
+    verticalChecker: function () {
 
         let cellList = this.getCellList();
         let cellListCounter = 0;
@@ -107,7 +132,15 @@ const Game = {
                         i == 0 ? this.verticalCounter = 0 : '';
                         let cellColor = listToArray[i][j].style.backgroundColor;
                         cellColor == this.turnColor ? this.verticalCounter+=1 : '';
-                        this.verticalCounter == 3 ? alert(String(this.turnColor) + ' win') : '';
+                        this.verticalCounter == 3 ? $('.winning-bar').removeClass('d-none'): '';
+                        this.verticalCounter == 3 ?  $('.winning-bar').css('transform', 'rotate(90deg)'): '';
+                        this.verticalCounter == 3 ? $('.winner-blocker').css('z-index', '10000') : '';
+                        if(this.verticalCounter == 3 &&  j == 2){
+                            $('.winning-bar').css('margin-left', $(listToArray[i][j]).width()+10)
+                        }
+                        else if(this.verticalCounter == 3 &&  j == 0){
+                            $('.winning-bar').css('margin-left', -$(listToArray[i][j]).width()-10)
+                        }
                     }
                 }
             }
@@ -115,7 +148,8 @@ const Game = {
         }
 
     },
-    diagonalCheckerLeft: async function () {
+    // Diagonal checker left
+    diagonalCheckerLeft: function () {
         
         let cellList = this.getCellList();
         let cellListCounter = 0;
@@ -137,14 +171,16 @@ const Game = {
                     i == 0 ? this.diagonalCounterLeft = 0 : '';
                     let cellColor = listToArray[i][j].style.backgroundColor;
                     cellColor == this.turnColor ? this.diagonalCounterLeft+=1 : '';
-                    this.diagonalCounterLeft == 3 ? alert(String(this.turnColor) + ' win') : '';
+                    this.diagonalCounterLeft == 3 ? $('.winning-bar').removeClass('d-none'): '';
+                    this.diagonalCounterLeft == 3 ?  $('.winning-bar').css('transform', 'rotate(45deg)'): '';
                 }
             }
         }
             
 
     },
-    diagonalCheckerRight: async function () {
+    // Diagonal checker right
+    diagonalCheckerRight: function () {
         
         let cellList = this.getCellList();
         let cellListCounter = 0;
@@ -161,7 +197,6 @@ const Game = {
         }
 
         const p = 2;
-            
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
 
@@ -169,14 +204,14 @@ const Game = {
                     i == 0 ? this.diagonalCounterRight  = 0 : '';
                     let cellColor = listToArray[i][j].style.backgroundColor;
                     cellColor == this.turnColor ? this.diagonalCounterRight +=1 : '';
-                    this.diagonalCounterRight  == 3 ? alert(String(this.turnColor) + ' win') : '';
+                    this.diagonalCounterRight == 3 ?  $('.winning-bar').removeClass('d-none'): '';
+                    this.diagonalCounterRight  == 3 ? $('.winning-bar').css('transform', 'rotate(-45deg)'): '';
                 }
             }
         }
-            
-
     },
-    horizontalSimulator: async function (currentBoard, color) {
+    // Horizontal simulator
+    horizontalSimulator: function (currentBoard, color) {
 
         let cellList = currentBoard;
         let cellListCounter = 0;
@@ -199,18 +234,22 @@ const Game = {
                 cellColor == color ? this.horizontalCounter+=1 : '';
                 if(this.horizontalCounter == 3){
                     this.simulatorWinner = true;
-                    color  == 'green' ? this.simulatorScore = {score: -10} :  this.simulatorScore = {score: 10};
                     for (let index = 0; index  < 3; index++) {
                         let hindex = j-index; 
                         getCell = listToArray[i][hindex];
-                        getCell.style.backgroundColor.length == 0 ? this.simulatorScore = {position: getCell}: '';
-                        console.log(this.simulatorScore);
+                        if(color  == 'green' && getCell.style.backgroundColor.length == 0){
+                            this.simulatorScore  = {score: -10};
+                        }
+                        else if(color  != 'green' && getCell.style.backgroundColor.length == 0){
+                            this.simulatorScore  = {score: 10};
+                        }
                     }
                 }
             }
         }
     },
-    verticalSimulator: async function (currentBoard, color) {
+    // Vertical simulator
+    verticalSimulator: function (currentBoard, color) {
 
         let cellList = currentBoard;
         let cellListCounter = 0;
@@ -238,11 +277,15 @@ const Game = {
                         cellColor == color ? this.verticalCounter += 1 : '';
                         if(this.verticalCounter == 3){
                             this.simulatorWinner = true;
-                            color  == 'green' ? this.simulatorScore = {score: -10} :  this.simulatorScore = {score: 10};
                             for (let index = 0; index  < 3; index++) {
                                 let hindex = i-index; 
                                 getCell = listToArray[hindex][j]
-                                getCell.style.backgroundColor.length == 0 ? this.simulatorScore = {position: getCell}: '';
+                                if(color  == 'green' && getCell.style.backgroundColor.length == 0){
+                                    this.simulatorScore  = {score: -10};
+                                }
+                                else if(color  != 'green' && getCell.style.backgroundColor.length == 0){
+                                    this.simulatorScore  = {score: 10};
+                                }
                             }
                         }
                     }
@@ -252,7 +295,8 @@ const Game = {
         }
 
     },
-    diagonalSimulatorLeft: async function (currentBoard, color) {
+    // Diagonal simulator left
+    diagonalSimulatorLeft: function (currentBoard, color) {
         
         let cellList = currentBoard;
         let cellListCounter = 0;
@@ -282,7 +326,12 @@ const Game = {
                         for (let index = 0; index  < 3; index++) {
                             let hindex = i-index;
                             getCell = listToArray[hindex][hindex];
-                            getCell.style.backgroundColor.length == 0 ? this.simulatorScore = {position: getCell}: '';
+                            if(color  == 'green' && getCell.style.backgroundColor.length == 0){
+                                this.simulatorScore  = {score: -10};
+                            }
+                            else if(color  != 'green' && getCell.style.backgroundColor.length == 0){
+                                this.simulatorScore  = {score: 10};
+                            }
                         }
                     }
                 }
@@ -291,7 +340,8 @@ const Game = {
             
 
     },
-    diagonalSimulatorRight: async function (currentBoard, color) {
+    // Diagonal simulator right
+    diagonalSimulatorRight: function (currentBoard, color) {
         
         let cellList = currentBoard;
         let cellListCounter = 0;
@@ -322,8 +372,12 @@ const Game = {
                         for (let index = 0; index  < 3; index++) {
                             let hindex = i-index;
                             getCell = listToArray[index][p-index];
-                            getCell.style.backgroundColor.length == 0 ? this.simulatorScore = {position: getCell}: '';
-                            color  == 'green' ? this.simulatorScore = {score: -10} :  this.simulatorScore = {score: 10};
+                            if(color  == 'green' && getCell.style.backgroundColor.length == 0){
+                                this.simulatorScore  = {score: -10};
+                            }
+                            else if(color  != 'green' && getCell.style.backgroundColor.length == 0){
+                                this.simulatorScore  = {score: 10};
+                            }
                         }
                     }
                 }
@@ -332,42 +386,20 @@ const Game = {
             
 
     },
+    // Simulator launcher
     simulator : async function (playbleArray, currentBoard){
-        (async function (){
             this.simulatorScore = {score: -70};
-        })()
-        .then(() => {
             this.verticalSimulator(currentBoard, 'green');
-            console.log(this.simulatorScore);
-        })
-        .then(() => {
             this.horizontalSimulator(currentBoard, 'green');
-            console.log(this.simulatorScore);
-        })
-        .then(() => {
             this.diagonalSimulatorLeft(currentBoard, 'green');
-            console.log(this.simulatorScore);
-        })
-        .then(() => {
             this.diagonalSimulatorRight(currentBoard, 'green');
-            console.log(this.simulatorScore);
-        })
-        .then(() => {
             this.verticalSimulator(currentBoard, 'red');
-        })
-        .then(() => {
             this.horizontalSimulator(currentBoard, 'red');
-        })
-        .then(() => {
             this.diagonalSimulatorLeft(currentBoard, 'red');
-        })
-        .then(() => {
             this.diagonalSimulatorRight(currentBoard, 'red');
-        })
-        .then(() => {
             playbleArray.length == 0 ? this.simulatorScore = {score: 0} : '';     
-        })
     },
+    // Return possible moves
     playableChecker: function(){
         
         let cellList = this.getCellList();
@@ -378,27 +410,55 @@ const Game = {
             getCellStyle = cellList[cellListCounter].style.backgroundColor;
             getCellStyle.length === 0 ? playableArray[i] = cellList[cellListCounter] : '';
             cellListCounter++;
-
         }
 
         this.playbleCells = playableArray;
     },
+    // Get playble cells
     getPlaybleCells: function(){
         this.playableChecker();
         return this.playbleCells;
     },
-    winnerChecker: function() {
-        this.verticalChecker()
-        .then(() => {
-            this.horizontalChecker();
-        })
-        .then(() => {
-            this.diagonalCheckerLeft();
-        })
-        .then(() => {
-            this.diagonalCheckerRight();
-        });
+    // Action for first moves
+    firstTurnMoves: function () {
+        let angleCenterList = ['#0', '#2', '#6', '#8', '#4'];
+        bestMove = null;
+        let centerCell = $(angleCenterList[4])[0];
+        let rand = Math.floor(Math.random() /2 * 8);
+        for(index = 0; index < angleCenterList.length - 1; index++){
+            let cell = $(angleCenterList[index])[0];
+            if(cell.style.backgroundColor == 'green'){
+                bestMove = {
+                    index: $(angleCenterList[4])[0],
+                    score: -10
+                }
+                return bestMove
+            }
+        }
+        if(centerCell.style.backgroundColor == 'green'){
+            bestMove = {
+                index: $(angleCenterList[rand])[0],
+                score: -10
+            }
+            return bestMove;
+        }
+
+        bestMove = {
+            index: $(angleCenterList[4])[0],
+            score: -10
+        }
+
+        return bestMove;
+
     },
+    // Winner checker function 
+    winnerChecker: function() {
+        this.verticalChecker();
+        this.horizontalChecker();
+        this.diagonalCheckerLeft();
+        this.diagonalCheckerRight();
+    },
+    // Ia turn function
     iaTurn: function() {
         // Get playble cellules
         let playbleArray = this.playbleCells;
@@ -448,7 +508,6 @@ const Game = {
 
                 }
             }
-            console.log(moves);
         })()
         .then(() => {
             let bestMove = null;
@@ -469,14 +528,26 @@ const Game = {
             return bestMove;
         })
         .then((bestMove) => {
+            // Maybe add a level condition here
+            if(this.turnIterator == 2){
+                bestMove = this.firstTurnMoves(moves);
+            }
+
+            let new_image = document.createElement('img');
             bestMove.index.style.backgroundColor = 'red';
+            bestMove.index.style.backgroundImage = 'linear-gradient(#fff, #fff)';
+            bestMove.index.appendChild(new_image);
+            new_image.setAttribute('src', this.circleImage);
+            new_image.setAttribute('class', 'img-fluid w-100');
         })
-        
+        .then(()=>{
+            this.winnerChecker();
+        })
     }
 
 }
 
-window.addEventListener('click', function(e){
+$('td').on('click', function(e){
     Game.onCellClicked(e)
     .then(() =>  {
         Game.winnerChecker();
@@ -485,67 +556,22 @@ window.addEventListener('click', function(e){
         Game.getPlaybleCells();
     })
     .then(() => {
+        Game.turnIterator += 1;
+        Game.setColor(Game.turnIterator);
         Game.iaTurn();
-    })
-    .then(() =>  {
-        Game.winnerChecker();
     })
 });
 
-let iter = 0;
-let round = 0;
+$('.btn-reloader').click(function(){
+    window.location.reload();
+})
 
-function minimax(reboard, player) {
-  iter++;
-  let array = avail(reboard);
-  if (winning(reboard, huPlayer)) {
-    return {
-      score: -10
-    };
-  } else if (winning(reboard, aiPlayer)) {
-    return {
-      score: 10
-    };
-  } else if (array.length === 0) {
-    return {
-      score: 0
-    };
-  }
-
-  var moves = [];
-  for (var i = 0; i < array.length; i++) {
-    var move = {};
-    move.index = reboard[array[i]];
-    reboard[array[i]] = player;
-
-    if (player == aiPlayer) {
-      var g = minimax(reboard, huPlayer);
-      move.score = g.score;
-    } else {
-      var g = minimax(reboard, aiPlayer);
-      move.score = g.score;
-    }
-    reboard[array[i]] = move.index;
-    moves.push(move);
-  }
-
-  var bestMove;
-  if (player === aiPlayer) {
-    var bestScore = -10000;
-    for (var i = 0; i < moves.length; i++) {
-      if (moves[i].score > bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  } else {
-    var bestScore = 10000;
-    for (var i = 0; i < moves.length; i++) {
-      if (moves[i].score < bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  }
-  return moves[bestMove];
-}
+$('.play-button').click(function(){
+    $('.logo-gh').fadeOut();
+    $('.menu-container').slideUp(800);
+    setTimeout(function(){
+        $('.menu-container').remove();
+        $('.title-game').css('color', 'pink');
+        $('.logo-gh').fadeIn();
+    },800)
+})
