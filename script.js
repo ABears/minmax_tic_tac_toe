@@ -574,24 +574,26 @@ const Game = {
 }
 
 $('td').on('click', function(e){
-    Game.onCellClicked(e)
-    .then(() =>  {
-        Game.winnerChecker();
-    })
-    .then(() => {
-        Game.getPlaybleCells();
-    })
-    .then(() =>{
-        Game.isTie();
-    })
-    .then(() => {
-        Game.turnIterator += 1;
-        Game.setColor(Game.turnIterator);
-        Game.iaTurn();
-    })
-    .then(() => {
-        Game.isTie();
-    })
+    if(e.target.classList.contains('cell')){
+        Game.onCellClicked(e)
+        .then(() =>  {
+            Game.winnerChecker();
+        })
+        .then(() => {
+            Game.getPlaybleCells();
+        })
+        .then(() =>{
+            Game.isTie();
+        })
+        .then(() => {
+            Game.turnIterator += 1;
+            Game.setColor(Game.turnIterator);
+            Game.iaTurn();
+        })
+        .then(() => {
+            Game.isTie();
+        })
+    }
 });
 
 $('.winner-blocker').click(function(){
