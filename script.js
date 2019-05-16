@@ -445,6 +445,7 @@ const Game = {
     // Action for first moves
     firstTurnMoves: function () {
         let angleCenterList = ['#0', '#2', '#6', '#8', '#4'];
+        let crossList = ['#1', '#5', '#3', '#7'];
         bestMove = null;
         let centerCell = $(angleCenterList[4])[0];
         let rand = Math.floor(Math.random() /2 * 8);
@@ -453,6 +454,16 @@ const Game = {
             if(cell.style.backgroundColor == 'green'){
                 bestMove = {
                     index: $(angleCenterList[4])[0],
+                    score: -10
+                }
+                return bestMove
+            }
+        }
+        for(index = 0; index < crossList.length; index++){
+            let cell = $(crossList[index])[0];
+            if(cell.style.backgroundColor == 'green'){
+                bestMove = {
+                    index: $(angleCenterList[index])[0],
                     score: -10
                 }
                 return bestMove
@@ -467,7 +478,7 @@ const Game = {
         }
 
         bestMove = {
-            index: $(angleCenterList[4])[0],
+            index: $(angleCenterList[rand])[0],
             score: -10
         }
 
