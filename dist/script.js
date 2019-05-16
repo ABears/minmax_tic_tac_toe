@@ -570,7 +570,13 @@ const Game = {
             if(this.turnIterator == 2){
                 bestMove = this.firstTurnMoves(moves);
             }
-
+            else if($('#4')[0].style.backgroundColor.length == 0){
+                bestMove = {
+                    index: $('#4')[0],
+                    score: -10
+                }
+            }
+            
             let new_image = document.createElement('img');
             bestMove.index.style.backgroundColor = 'red';
             bestMove.index.style.backgroundImage = 'linear-gradient(#fff, #fff)';
