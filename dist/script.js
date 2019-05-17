@@ -445,7 +445,7 @@ const Game = {
     // Action for first moves
     firstTurnMoves: function () {
         let angleCenterList = ['#0', '#2', '#6', '#8', '#4'];
-        let crossList = ['#1', '#5', '#3', '#7'];
+        let crossList = ['#1', '#5', '#3', '#7', '#4'];
         bestMove = null;
         let centerCell = $(angleCenterList[4])[0];
         let rand = Math.floor(Math.random() /2 * 8);
@@ -484,6 +484,14 @@ const Game = {
 
         return bestMove;
 
+    },
+    firstSpeak: function(){
+        let new_image = document.createElement('img');
+        $('#4')[0].style.backgroundColor = 'red';
+        $('#4')[0].style.backgroundImage = 'linear-gradient(#fff, #fff)';
+        $('#4')[0].appendChild(new_image);
+        new_image.setAttribute('src', this.circleImage);
+        new_image.setAttribute('class', 'img-fluid w-100');
     },
     // Winner checker function 
     winnerChecker: function() {
@@ -566,16 +574,16 @@ const Game = {
             return bestMove;
         })
         .then((bestMove) => {
-            // Maybe add a level condition here
-            if(this.turnIterator == 2){
-                bestMove = this.firstTurnMoves(moves);
-            }
-            else if($('#4')[0].style.backgroundColor.length == 0){
-                bestMove = {
-                    index: $('#4')[0],
-                    score: -10
-                }
-            }
+            // // Maybe add a level condition here
+            // if(this.turnIterator == 2){
+            //     bestMove = this.firstTurnMoves(moves);
+            // }
+            // else if($('#4')[0].style.backgroundColor.length == 0){
+            //     bestMove = {
+            //         index: $('#4')[0],
+            //         score: -10
+            //     }
+            // }
             
             let new_image = document.createElement('img');
             bestMove.index.style.backgroundColor = 'red';
@@ -589,6 +597,8 @@ const Game = {
         })
     }
 }
+
+
 
 $('td').on('click', function(e){
     if(e.target.classList.contains('cell')){
@@ -628,5 +638,9 @@ $('.play-button').click(function(){
         $('.menu-container').remove();
         $('.title-game').css('color', 'pink');
         $('.logo-gh').fadeIn();
+        
     },800)
+    setTimeout(function(){
+        Game.firstSpeak();
+    },900)
 })
