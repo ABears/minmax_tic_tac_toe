@@ -486,6 +486,7 @@ const Game = {
 
     },
     firstSpeak: function(){
+        this.turnIterator += 2;
         let new_image = document.createElement('img');
         $('#4')[0].style.backgroundColor = 'red';
         $('#4')[0].style.backgroundImage = 'linear-gradient(#fff, #fff)';
@@ -502,7 +503,8 @@ const Game = {
     },
     isTie: function() {
         this.playbleCells.length == 0 ? $('.winner-blocker').css('z-index', '10000') : '';
-        this.playbleCells.length == 0 ? Game.getWinner('tie') : '';  
+        this.playbleCells.length == 0 ? Game.getWinner('tie') : ''; 
+        return this.playbleCells.length;
     },
     // Ia turn function
     iaTurn: function() {
@@ -510,7 +512,6 @@ const Game = {
         let playbleArray = this.playbleCells;
         // Get current board
         let cellList = this.getCellList();
-        
         let moves = [];        
         (async () => {
             for (let i = 0; i < playbleArray.length; i++) {
@@ -594,6 +595,8 @@ const Game = {
         })
         .then(()=>{
             this.winnerChecker();
+            this.getPlaybleCells();
+            this.isTie();
         })
     }
 }
@@ -616,9 +619,6 @@ $('td').on('click', function(e){
             Game.turnIterator += 1;
             Game.setColor(Game.turnIterator);
             Game.iaTurn();
-        })
-        .then(() => {
-            Game.isTie();
         })
     }
 });
