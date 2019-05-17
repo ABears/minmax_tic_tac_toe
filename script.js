@@ -443,33 +443,14 @@ const Game = {
         return this.playbleCells;
     },
     // Action for first moves
-    firstTurnMoves: function () {
-        let angleCenterList = ['#0', '#2', '#6', '#8', '#4'];
+    secondTurnMoves: function () {
+        let angleCenterList = ['#0', '#2', '#6'];
         let crossList = ['#1', '#5', '#3', '#7', '#4'];
         bestMove = null;
         let centerCell = $(angleCenterList[4])[0];
         let rand = Math.floor(Math.random() /2 * 8);
-        for(index = 0; index < angleCenterList.length - 1; index++){
-            let cell = $(angleCenterList[index])[0];
-            if(cell.style.backgroundColor == 'green'){
-                bestMove = {
-                    index: $(angleCenterList[4])[0],
-                    score: -10
-                }
-                return bestMove
-            }
-        }
-        for(index = 0; index < crossList.length; index++){
-            let cell = $(crossList[index])[0];
-            if(cell.style.backgroundColor == 'green'){
-                bestMove = {
-                    index: $(angleCenterList[index])[0],
-                    score: -10
-                }
-                return bestMove
-            }
-        }
-        if(centerCell.style.backgroundColor == 'green'){
+        
+        if($("#8")[0].style.backgroundColor.length != 0){
             bestMove = {
                 index: $(angleCenterList[rand])[0],
                 score: -10
@@ -477,10 +458,12 @@ const Game = {
             return bestMove;
         }
 
+
         bestMove = {
-            index: $(angleCenterList[rand])[0],
+            index: $("#8")[0],
             score: -10
         }
+
 
         return bestMove;
 
@@ -575,16 +558,11 @@ const Game = {
             return bestMove;
         })
         .then((bestMove) => {
-            // // Maybe add a level condition here
-            // if(this.turnIterator == 2){
-            //     bestMove = this.firstTurnMoves(moves);
-            // }
-            // else if($('#4')[0].style.backgroundColor.length == 0){
-            //     bestMove = {
-            //         index: $('#4')[0],
-            //         score: -10
-            //     }
-            // }
+
+            // Maybe add a level condition here
+            if(this.turnIterator == 4){
+                bestMove = this.secondTurnMoves(moves);
+            }
             
             let new_image = document.createElement('img');
             bestMove.index.style.backgroundColor = 'red';
